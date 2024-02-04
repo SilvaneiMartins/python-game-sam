@@ -74,6 +74,16 @@ def draw(window, background, bg_image, player):
 
     pygame.display.update()
 
+# Trata o movimento do jogador
+def handle_movement(player):
+    keys = pygame.key.get_pressed()
+
+    player.x_vel = 0
+    if keys[pygame.K_LEFT]:
+        player.move_left(PLAY_VEL)
+    if keys[pygame.K_RIGHT]:
+        player.move_right(PLAY_VEL)
+
 # Função principal
 def main(window):
     clock = pygame.time.Clock()
@@ -90,6 +100,8 @@ def main(window):
                 run = False
                 break
 
+        player.loop(FPS)
+        handle_movement(player)
         draw(window, background, bg_image, player)
 
     pygame.quit()
