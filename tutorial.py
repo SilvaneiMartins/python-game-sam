@@ -18,6 +18,40 @@ PLAY_VEL = 5
 # Defina a largura e a altura da tela [width, height]
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
+# Classe do jogador
+class Player(pygame.sprite.Sprite):
+    COLOR = (255, 0, 0)
+
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.x_vel = 0
+        self.y_vel = 0
+        self.mask = None
+        self.direction = "left"
+        self.animation_count = 0
+
+    def move(self, dx, dy):
+        self.rect.x += dx
+        self.rect.y += dy
+
+    def move_left(self, vel):
+        self.x_vel = -vel
+        if self.direction != "left":
+            self.direction = "left"
+            self.animation_count = 0
+
+    def move_right(self, vel):
+        self.x_vel = vel
+        if self.direction != "right":
+            self.direction = "right"
+            self.animation_count = 0
+
+    def loop(self, fps):
+        self.move(self.x_vel, self.y_vel)
+
+    def draw(self, win):
+        pygame.draw.rect(win, self.COLOR, self.rect)
+
 # Pega o background
 def get_background(name):
     image = pygame.image.load(join("assets", "Background", name))
@@ -32,9 +66,11 @@ def get_background(name):
     return tiles, image
 
 # Desenha o background
-def draw(window, background, bg_image):
+def draw(window, background, bg_image, player):
     for tile in background:
         window.blit(bg_image, tile)
+
+    player.draw(window)
 
     pygame.display.update()
 
@@ -42,6 +78,8 @@ def draw(window, background, bg_image):
 def main(window):
     clock = pygame.time.Clock()
     background, bg_image = get_background("Blue.png")
+
+    player = Player(100, 100, 50, 50)
 
     run = True
     while run:
@@ -52,7 +90,7 @@ def main(window):
                 run = False
                 break
 
-        draw(window, background, bg_image)
+        draw(window, background, bg_image, player)
 
     pygame.quit()
     quit()
