@@ -44,9 +44,9 @@ Bem-vindo ao nosso projeto de Sam Game desenvolvido na liguagem Python! Este gam
 
 Este projeto é licenciado sob [CC0 1.0 Universal]. Consulte o arquivo [LICENSE]( https://github.com/SilvaneiMartins/sam-fitness/blob/master/LICENSE) para obter detalhes.
 
-## Credito de Ensino
+## Canal no YouTube
 
-Canal no YouTube: [Code With Nomi](https://www.youtube.com/watch?v=asMSo4DLq6s)
+Silvanei Martins: [Canal Silvanei Martins](https://www.youtube.com/channel/UCmYDvec1_liMzbQcbXtuLmg/videos)
 
 ## Informação do Desenvolvedor
 
