@@ -8,7 +8,7 @@ from os.path import isfile, join
 
 # Inicializar Pygame
 pygame.init()
-pygame.display.set_caption("Platformer Sam Gamer")
+pygame.display.set_caption("Sam Gamer")
 
 # Defina as variáveis globais
 WIDTH, HEIGHT = 1000, 700
