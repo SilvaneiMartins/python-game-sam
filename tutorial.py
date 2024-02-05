@@ -95,11 +95,21 @@ class Player(pygame.sprite.Sprite):
 
     # Loop do jogador
     def loop(self, fps):
-        # self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
+        self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
 
         self.fall_count += 1
         self.update_sprite()
+
+    # Pula
+    def landed(self):
+        self.fall_count = 0
+        self.y_vel = 0
+        self.jump_count = 0
+
+    def hit_head(self):
+        self.count = 0
+        self.y_vel *= -1
 
     # Atualiza o sprite do jogador
     def update_sprite(self):
@@ -168,8 +178,24 @@ def draw(window, background, bg_image, player, objects):
 
     pygame.display.update()
 
+def handle_vertical_collision(player, objects, dy):
+    collided_objects = []
+    for obj in objects:
+        if pygame.sprite.collide_mask(player, obj):
+            if dy > 0:
+                player.rect.bottom = obj.rect.top
+                player.landed()
+            elif dy < 0:
+                player.rect.top = obj.rect.bottom
+                player.hit_head()
+
+        collided_objects.append(obj)
+
+    return collided_objects
+
+
 # Trata o movimento do jogador
-def handle_movement(player):
+def handle_movement(player, objects):
     keys = pygame.key.get_pressed()
 
     player.x_vel = 0
@@ -177,6 +203,8 @@ def handle_movement(player):
         player.move_left(PLAY_VEL)
     if keys[pygame.K_RIGHT]:
         player.move_right(PLAY_VEL)
+
+    handle_vertical_collision(player, objects, player.y_vel)
 
 # Função principal
 def main(window):
@@ -198,7 +226,7 @@ def main(window):
                 break
 
         player.loop(FPS)
-        handle_movement(player)
+        handle_movement(player, floor)
         draw(window, background, bg_image, player, floor)
 
     pygame.quit()
